@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface booksRepository : CrudRepository<BooksModel, Int>{
 
-    fun findByTitleContainingIgnoreCase(title: String): List<BooksModel>
+    abstract fun findByTitleContainingIgnoreCase(title: String): List<BooksModel>
 }

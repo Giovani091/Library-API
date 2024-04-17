@@ -1,5 +1,7 @@
 package com.library.api2.service
 
+import com.library.api2.enums.Errors
+import com.library.api2.exception.NotFoundException
 import com.library.api2.model.BooksModel
 import com.library.api2.repository.booksRepository
 import org.springframework.stereotype.Service
@@ -16,7 +18,7 @@ class BooksService(
     }
 
     fun getBooks(id: Int): BooksModel {
-        return booksRepository.findById(id).orElseGet(null)
+        return booksRepository.findById(id).orElseThrow{NotFoundException(Errors.LA001.message.format(id), Errors.LA001.code)}
     }
 
     fun createBook(book: BooksModel) {
@@ -26,7 +28,7 @@ class BooksService(
     fun updateBooks(book: BooksModel){
 
         if(!booksRepository.existsById(book.id!!)){
-            throw Exception()
+            throw NotFoundException(Errors.LA001.message.format(book.id), Errors.LA001.code)
         }
 
         booksRepository.save(book)
@@ -34,7 +36,7 @@ class BooksService(
 
     fun deleteBooks(id: Int){
         if(!booksRepository.existsById(id)){
-            throw Exception()
+            throw NotFoundException(Errors.LA001.message.format(id), Errors.LA001.code)
         }
 
         booksRepository.deleteById(id)
