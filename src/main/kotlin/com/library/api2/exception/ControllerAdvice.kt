@@ -14,8 +14,8 @@ import org.springframework.web.context.request.WebRequest
 @ControllerAdvice
 class ControllerAdvice{
 
-    @ExceptionHandler(NotFoundException::class)
-    fun handleException(ex: NotFoundException, request: WebRequest) : ResponseEntity<ErrorResponse> {
+    @ExceptionHandler(BookNotFoundException::class)
+    fun handleException(ex: BookNotFoundException, request: WebRequest) : ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             HttpStatus.NOT_FOUND.value(),
             ex.message,

@@ -20,12 +20,13 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.1")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	runtimeOnly("com.h2database:h2")
+	implementation("com.h2database:h2")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 	testImplementation("org.mockito:mockito-inline:2.13.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -1,10 +1,9 @@
 package com.library.api2.service
 
 
-import com.library.api2.enums.Errors
-import com.library.api2.exception.NotFoundException
+import com.library.api2.exception.BookNotFoundException
 import com.library.api2.model.BooksModel
-import com.library.api2.repository.booksRepository
+import com.library.api2.repository.BookRepository
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -14,14 +13,13 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
-import org.springframework.test.context.ActiveProfiles
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class BooksServiceTest {
 
     @Mock
-    lateinit var booksRepository: booksRepository
+    lateinit var booksRepository: BookRepository
 
     @InjectMocks
     lateinit var booksService: BooksService
@@ -48,7 +46,7 @@ class BooksServiceTest {
     @Test
     fun `getBooks, should throw when id not found`(){
         whenever(booksRepository.findById(bookId)).thenReturn(Optional.empty())
-        assertThrows<NotFoundException> { booksService.getBooks(bookId) }
+        assertThrows<BookNotFoundException> { booksService.getBooks(bookId) }
     }
 
     @Test
@@ -68,7 +66,7 @@ class BooksServiceTest {
     fun `updateBooks, should throw`(){
         whenever(book.id).thenReturn(bookId)
         whenever(booksRepository.existsById(book.id!!)).thenReturn(false)
-        assertThrows<NotFoundException> { booksService.updateBooks(book) }
+        assertThrows<BookNotFoundException> { booksService.updateBooks(book) }
     }
 
     @Test
@@ -82,6 +80,6 @@ class BooksServiceTest {
     fun `deleteBooks, should throw`(){
         whenever(book.id).thenReturn(bookId)
         whenever(booksRepository.existsById(book.id!!)).thenReturn(false)
-        assertThrows<NotFoundException> { booksService.deleteBooks(book.id!!) }
+        assertThrows<BookNotFoundException> { booksService.deleteBooks(book.id!!) }
     }
 }

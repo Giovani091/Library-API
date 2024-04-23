@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus
 import com.library.api2.controller.request.PostBooksRequest
 import com.library.api2.controller.request.PutBooksRequest
 import com.library.api2.extension.toBooksModel
+import com.library.api2.model.AuthorModel
 import com.library.api2.model.BooksModel
+import com.library.api2.model.dto.openLibrary.BookDTO
 import com.library.api2.service.BooksService
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,8 +18,7 @@ import org.springframework.web.client.getForEntity
 @RestController
 @RequestMapping("books")
 class BooksController(
-    val booksService: BooksService
-
+    val booksService: BooksService,
 ) {
 
 
@@ -35,6 +36,7 @@ class BooksController(
     @ResponseStatus(HttpStatus.CREATED)
     fun createBook(@RequestBody @Valid book: PostBooksRequest) {
         booksService.createBook(book.toBooksModel())
+
     }
 
     @PutMapping("/{id}")
@@ -49,10 +51,8 @@ class BooksController(
         booksService.deleteBooks(id)
     }
 
-    @GetMapping("/title/{titleExternal}")
-    fun getExternalBook(@PathVariable titleExternal: String): ResponseEntity<String> {
-        val restTemplate = RestTemplate()
-        val responseTitle = restTemplate.getForEntity<String>("https://openlibrary.org/search.json?q=${titleExternal.replace(" ", "+", true)}")
-        return responseTitle
+    @GetMapping("/info")
+    fun getExternalBook(@RequestBody book: BookDTO): ResponseEntity<BooksModel> {
+        return ResponseEntity.ok(booksService.save(book))
     }
 }
