@@ -31,8 +31,6 @@ class BooksService(
     }
 
     fun createBook(book: BooksModel) {
-        val author1 = AuthorModel(null,book.author.first(),null)
-        authorRepository.save(author1)
         bookRepository.save(book)
     }
 
@@ -57,10 +55,13 @@ class BooksService(
         if (bookRepository.findByTitle(book.title) != null)
             throw BookAlreadyExistsException()
 
+
         val openLibBook = openLibraryClient.searchBooks(book.title)
         val generatedBook = bookModelFactory.createInstance(openLibBook)
 
         return bookRepository.save(generatedBook)
     }
+
+
 
 }

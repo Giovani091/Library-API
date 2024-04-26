@@ -21,8 +21,8 @@ data class AuthorModel(
     var name: String,
 
     @ManyToOne
-    @JoinColumn
-    var book: BooksModel?
+    @JoinColumn(name = "book_id")
+    var book: BooksModel? = null
 
 
 
